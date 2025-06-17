@@ -6,4 +6,9 @@ public partial class GeneratorForm : Form
     {
         this.InitializeComponent();
     }
+
+    private void GenerateButton_Click(object? sender, EventArgs e)
+    {
+        
+    }
 }
