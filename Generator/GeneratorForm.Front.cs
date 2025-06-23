@@ -37,7 +37,7 @@ public partial class GeneratorForm : Form
         this.ConfigureLabel(this.NoiseLabel, new Point(15, 105), "NOISE:");
         this.ConfigureInput(this.NoiseInput, new Point(130, 105), 0, 1000, 200, 20);
 
-        this.GenerateButton.Click += this.GenerateButton_Click;
+        this.GenerateButton.Click += this.GenerateButtonClick;
         this.GenerateButton.Font = new Font(FontFamily.GenericMonospace, 20);
         this.GenerateButton.Location = new Point(15, 150);
         this.GenerateButton.Size = new Size(415, 50);
