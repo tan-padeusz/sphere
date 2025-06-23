@@ -42,6 +42,49 @@ public partial class GeneratorForm : Form
         return (sphere, string.Empty);
     }
 
+    private double[][] GeneratePoints(double[] sphere)
+    {
+        var count = (int) this.CountInput.Value;
+        var noise = (int) this.NoiseInput.Value;
+        
+        var dimensions = sphere.Length - 1;
+        var radius = sphere.Last();
+        
+        var points = new double[count][];
+        var random = Random.Shared;
+        
+        var deviation = (2 * random.NextDouble() - 1) * (noise / 1000.0);
+        var noiseFactor = 1 + deviation;
+
+        for (var index = 0; index < count; index++)
+        {
+            var point = new double[dimensions];
+            for (var dimension = 0; dimension < dimensions; dimension++)
+            {
+                // Box-Muller transform
+                var u1 = 1 - random.NextDouble();
+                var u2 = random.NextDouble();
+                var value = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+                point[index] = value;
+            }
+            
+            var norm = Math.Sqrt(point.Sum(value => value * value));
+            for (var dimension = 0; dimension < dimensions; dimension++)
+            {
+                point[dimension] /= norm;
+            }
+
+            for (var dimension = 0; dimension < dimensions; dimension++)
+            {
+                point[dimension] = sphere[dimension] + point[dimension] * radius * noiseFactor;
+            }
+            
+            points[index] = point;
+        }
+        
+        return points;
+    }
+
     private static bool TryParse(string input, out double output)
     {
         try
