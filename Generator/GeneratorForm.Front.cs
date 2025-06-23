@@ -1,6 +1,6 @@
 ﻿namespace Generator;
 
-public partial class GeneratorForm : Form
+public partial class GeneratorForm
 {
     // CONTROLS
     private Label SphereLabel { get; } = new Label();
