@@ -6,6 +6,7 @@ public class PointCloud
 	public string Error { get; } = string.Empty;
 	public bool HasError => this.Error != string.Empty;
 	private Point[] Points { get; } = [];
+	public int Size => this.Points.Length;
 	public static PointCloud Empty { get; } = new PointCloud();
 
 	private PointCloud()
