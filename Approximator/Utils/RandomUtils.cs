@@ -10,7 +10,7 @@ public class RandomUtils
 		var randomValue = RandomUtils.Random.Next(1000);
 		if (randomValue >= mutationProbability) return value;
 		var threshold = baseThreshold / Math.Sqrt(populationId + 1);
-		var delta = RandomUtils.RandomDouble(-threshold, threshold);
+		var delta = Math.Pow(10, RandomUtils.RandomDouble(-threshold, threshold));
 		var sign = RandomUtils.RandomSign();
 		return value + delta * sign;
 	}
