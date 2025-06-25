@@ -1,4 +1,7 @@
-﻿namespace Approximator.Utils;
+﻿using Approximator.DTO;
+using Approximator.Genetics;
+
+namespace Approximator.Utils;
 
 public class RandomUtils
 {
@@ -15,9 +18,15 @@ public class RandomUtils
 		return value + delta * sign;
 	}
 	
-	private static void PerformTournament()
+	private static Individual PerformTournament(Individual[] group)
 	{
-		throw new NotImplementedException();
+		var bestIndividual = group.First();
+		foreach (var individual in group)
+		{
+			if (individual.IsBetterThan(bestIndividual))
+				bestIndividual = individual;
+		}
+		return bestIndividual;
 	}
 
 	public static double[] RandomArray(int size)
@@ -47,9 +56,14 @@ public class RandomUtils
 		return result;
 	}
 	
-	public static void RandomParents()
+	public static Parents RandomParents(Individual[] population, int tournamentSize)
 	{
-		throw new NotImplementedException();
+		var picked = RandomUtils.RandomElements(population, 2 * tournamentSize);
+		var fatherGroup = picked.Take(tournamentSize).ToArray();
+		var motherGroup = picked.Skip(tournamentSize).ToArray();
+		var father = RandomUtils.PerformTournament(fatherGroup);
+		var mother = RandomUtils.PerformTournament(motherGroup);
+		return new Parents(father, mother);
 	}
 
 	private static int RandomSign()
