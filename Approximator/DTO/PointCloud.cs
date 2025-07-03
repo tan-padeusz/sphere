@@ -51,12 +51,12 @@ public class PointCloud
 		for (var index = 1; index < points.Count; index++)
 		{
 			var point = points[index];
-			if (point.Dimension != dimension) continue;
 			foreach (var coordinate in point)
 			{
 				var oom = PointCloud.EvaluateOrderOfMagnitude(coordinate);
 				if (oom > orderOfMagnitude) orderOfMagnitude = oom;
 			}
+			if (point.Dimension == dimension) continue;
 			this.Error = $"Mismatch in dimension between first point and point at line {index + 1}!";
 			return;
 		}
@@ -73,9 +73,9 @@ public class PointCloud
 			return 0;
 		return (int) Math.Floor(Math.Log10(value));
 	}
-
+	
 	public IEnumerator<Point> GetEnumerator()
 	{
-		return (IEnumerator<Point>) this.Points.GetEnumerator();
+		return ((IEnumerable<Point>) this.Points).GetEnumerator();
 	}
 }

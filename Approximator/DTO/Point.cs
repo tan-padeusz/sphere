@@ -43,6 +43,6 @@ public readonly struct Point
 	
 	public IEnumerator<double> GetEnumerator()
 	{
-		return (IEnumerator<double>) this.Coordinates.GetEnumerator();
+		return ((IEnumerable<double>) this.Coordinates).GetEnumerator();
 	}
 }
