@@ -6,7 +6,7 @@ using DTO;
 
 public class Population
 {
-	private Individual BestIndividual { get; }
+	public Individual BestIndividual { get; }
 	public long Id { get; }
 	private Individual[] Individuals { get; }
 	private static Func<Approximator, Population?, Individual> CreateIndividual { get; set; } = Population.CreateRandomIndividual;
