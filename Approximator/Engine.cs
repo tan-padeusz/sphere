@@ -16,6 +16,7 @@ public class Engine
 	private long PopulationsCreated { get; set; }
 	
 	public Result Result { get; private set; } = Result.Default;
+	public string Status { get; private set; } = "STOPPED";
 
 	private void Approximate(Approximator.DTO.Approximator approximator)
 	{
@@ -25,7 +26,7 @@ public class Engine
 			this.GlobalBestIndividual = population.BestIndividual;
 			this.LastImprovement = 0;
 			this.PopulationsCreated = 1;
-			while (this.IsRunning)
+			while (this.IsRunning && this.GlobalBestIndividual.DisplayError > 0)
 			{
 				while (this.IsPaused)
 				{
@@ -56,38 +57,38 @@ public class Engine
 			.Build();
 	}
 	
-	public bool Start(Approximator.DTO.Approximator approximator)
+	public void Start(Approximator.DTO.Approximator approximator)
 	{
-		if (this.IsRunning) return false;
+		if (this.IsRunning) return;
 		this.IsRunning = true;
 		this.IsPaused = false;
 		this.Approximate(approximator);
 		this.Stopwatch.Restart();
-		return true;
+		this.Status = "RUNNING";
 	}
 
-	public bool Stop()
+	public void Stop()
 	{
-		if (!this.IsRunning) return false;
+		if (!this.IsRunning) return;
 		this.IsRunning = false;
 		this.IsPaused = false;
 		this.Stopwatch.Stop();
-		return true;
+		this.Status = "STOPPED";
 	}
 
-	public bool Pause()
+	public void Pause()
 	{
-		if (!this.IsRunning || this.IsPaused) return false;
+		if (!this.IsRunning || this.IsPaused) return;
 		this.IsPaused = true;
 		this.Stopwatch.Stop();
-		return true;
+		this.Status = "PAUSED";
 	}
 
-	public bool Resume()
+	public void Resume()
 	{
-		if (!this.IsRunning || !this.IsPaused) return false;
+		if (!this.IsRunning || !this.IsPaused) return;
 		this.IsPaused = false;
 		this.Stopwatch.Start();
-		return true;
+		this.Status = "RUNNING";
 	}
 }

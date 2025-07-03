@@ -1,5 +1,4 @@
 ﻿using Approximator.DTO;
-using Point = System.Drawing.Point;
 using Timer = System.Windows.Forms.Timer;
 
 namespace Approximator;
@@ -27,6 +26,7 @@ public partial class ApproximatorForm : Form
 			this.PopulationsCreatedOutput.Text = result.PopulationsCreated;
 			this.LastImprovementOutput.Text = result.LastImprovement;
 			this.OutcomeOutput.Text = result.Outcome;
+			this.EngineStatusLabel.Text = $"ENGINE STATUS: {this.Engine.Status}";
 		};
 		this.Timer.Start();
 	}
@@ -73,30 +73,22 @@ public partial class ApproximatorForm : Form
 			.SetTournamentSize(this.TournamentSizeInput.Value)
 			.Build();
 		
-		var result = this.Engine.Start(approximator);
-		if (!result) return;
-		this.ChangeEngineStatus("RUNNING");
+		this.Engine.Start(approximator);
 	}
 
 	private void StopEngineButtonClick(object? sender, EventArgs args)
 	{
-		var result = this.Engine.Stop();
-		if (!result) return;
-		this.ChangeEngineStatus("STOPPED");
+		this.Engine.Stop();
 	}
 
 	private void PauseEngineButtonClick(object? sender, EventArgs args)
 	{
-		var result = this.Engine.Pause();
-		if (!result) return;
-		this.ChangeEngineStatus("PAUSED");
+		this.Engine.Pause();
 	}
 
 	private void ResumeEngineButtonClick(object? sender, EventArgs args)
 	{
-		var result = this.Engine.Resume();
-		if (!result) return;
-		this.ChangeEngineStatus("RUNNING");
+		this.Engine.Resume();
 	}
 
 	private void PopulationSizeInputValueChanged(object? sender, EventArgs args)
@@ -105,11 +97,5 @@ public partial class ApproximatorForm : Form
 		var halfValue = Math.Floor(value / 2);
 		this.TournamentSizeInput.Maximum = halfValue;
 		this.TournamentSizeInput.Value = Math.Min(this.TournamentSizeInput.Value, halfValue);
-	}
-
-	private void ChangeEngineStatus(string status)
-	{
-		this.EngineStatusLabel.Text = $"ENGINE STATUS: {status}";
-		this.ResizeFontToFit(this.EngineStatusLabel);
 	}
 }

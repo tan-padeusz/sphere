@@ -32,7 +32,7 @@ public class Result
 
 		public Builder SetError(double error)
 		{
-			this.Result.Error = $"{error}";
+			this.Result.Error = error.ToString("F6");
 			return this;
 		}
 
