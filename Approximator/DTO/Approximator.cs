@@ -5,6 +5,7 @@ public class Approximator
 	public int BaseThreshold { get; private set; } = 5;
 	public int ChromosomeSize => this.PointCloud.Dimension + 1;
 	public int MutationProbability { get; private set; } = 200;
+	public int OrderOfMagnitude => this.PointCloud.OrderOfMagnitude;
 	public int PatriarchyLevel { get; private set; } = 600;
 	public PointCloud PointCloud { get; private set; } = PointCloud.Empty;
 	public int PopulationSize { get; private set; } = 400;

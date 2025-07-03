@@ -38,7 +38,7 @@ public class Individual
 			error += Math.Abs(point.DistanceTo(center) - radius);
 		}
 
-		return (error, error / cloud.Size);
+		return (error, Math.Round(error / cloud.Size, 6));
 	}
 
 	public bool IsBetterThan(Individual other)
@@ -56,7 +56,8 @@ public class Individual
 		for (var index = 0; index < this.Genes.Length; index++)
 		{
 			var gene = this.Genes[index];
-			this.Genes[index] = RandomUtils.AttemptMutation(gene, approximator.MutationProbability, approximator.BaseThreshold, populationId);
+			var mutation = new Mutation(approximator.MutationProbability, approximator.OrderOfMagnitude, populationId);
+			this.Genes[index] = RandomUtils.AttemptMutation(gene, mutation);
 		}
 	}
 

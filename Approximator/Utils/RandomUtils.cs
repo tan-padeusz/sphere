@@ -8,12 +8,14 @@ public class RandomUtils
 	private static Random Random { get; } = Random.Shared;
 	private static int[] Signs { get; } = [-1, 1];
 
-	public static double AttemptMutation(double value, int mutationProbability, double baseThreshold, int populationId)
+	public static double AttemptMutation(double value, Mutation mutation)
 	{
 		var randomValue = RandomUtils.Random.Next(1000);
-		if (randomValue >= mutationProbability) return value;
-		var threshold = baseThreshold / Math.Sqrt(populationId);
-		var delta = Math.Pow(10, RandomUtils.RandomDouble(-threshold, threshold));
+		if (randomValue >= mutation.Probability) return value;
+		var divider = Math.Pow(mutation.PopulationId, 0.25);
+		var maxThreshold = mutation.OrderOfMagnitude / divider;
+		var minThreshold = -6 + 6 / divider;
+		var delta = Math.Pow(10, RandomUtils.RandomDouble(minThreshold, maxThreshold));
 		var sign = RandomUtils.RandomSign();
 		return value + delta * sign;
 	}

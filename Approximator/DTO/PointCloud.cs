@@ -2,9 +2,10 @@
 
 public class PointCloud
 {
-	public int Dimension { get; } = 0;
+	public int Dimension { get; }
 	public string Error { get; } = string.Empty;
 	public bool HasError => this.Error != string.Empty;
+	public int OrderOfMagnitude { get; }
 	private Point[] Points { get; } = [];
 	public int Size => this.Points.Length;
 	public static PointCloud Empty { get; } = new PointCloud();
@@ -46,16 +47,31 @@ public class PointCloud
 		}
 
 		var dimension = points[0].Dimension;
+		var orderOfMagnitude = int.MinValue;
 		for (var index = 1; index < points.Count; index++)
 		{
 			var point = points[index];
 			if (point.Dimension != dimension) continue;
+			foreach (var coordinate in point)
+			{
+				var oom = PointCloud.EvaluateOrderOfMagnitude(coordinate);
+				if (oom > orderOfMagnitude) orderOfMagnitude = oom;
+			}
 			this.Error = $"Mismatch in dimension between first point and point at line {index + 1}!";
 			return;
 		}
 		
 		this.Dimension = dimension;
+		this.OrderOfMagnitude = orderOfMagnitude;
 		this.Points = points.ToArray();
+	}
+
+	private static int EvaluateOrderOfMagnitude(double value)
+	{
+		value = Math.Abs(value);
+		if (value < 0.00001)
+			return 0;
+		return (int) Math.Floor(Math.Log10(value));
 	}
 
 	public IEnumerator<Point> GetEnumerator()

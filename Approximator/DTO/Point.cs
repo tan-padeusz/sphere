@@ -40,4 +40,9 @@ public readonly struct Point
 		var doubleCoordinates = coordinates.Split(';').Select(double.Parse).ToArray();
 		return new Point(doubleCoordinates);
 	}
+	
+	public IEnumerator<double> GetEnumerator()
+	{
+		return (IEnumerator<double>) this.Coordinates.GetEnumerator();
+	}
 }
