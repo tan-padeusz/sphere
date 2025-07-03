@@ -2,7 +2,6 @@
 
 public class Approximator
 {
-	public int BaseThreshold { get; private set; } = 5;
 	public int ChromosomeSize => this.PointCloud.Dimension + 1;
 	public int MutationProbability { get; private set; } = 200;
 	public int OrderOfMagnitude => this.PointCloud.OrderOfMagnitude;
@@ -15,12 +14,6 @@ public class Approximator
 	internal class Builder
 	{
 		private Approximator Approximator { get; } = new Approximator();
-
-		public Builder SetBaseThreshold(decimal baseThreshold)
-		{
-			this.Approximator.BaseThreshold = (int) baseThreshold;
-			return this;
-		}
 
 		public Builder SetMutationProbability(decimal mutationProbability)
 		{

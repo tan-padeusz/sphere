@@ -2,8 +2,8 @@
 
 public partial class ApproximatorForm : Form
 {
-	private void InitializeComponent()
+	public ApproximatorForm()
 	{
-		
+		this.InitializeComponent();
 	}
 }
