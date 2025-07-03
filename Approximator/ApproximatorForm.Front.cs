@@ -13,8 +13,8 @@ public partial class ApproximatorForm
 	private Label MutationProbabilityLabel { get; } = new Label();
 	private NumericUpDown MutationProbabilityInput { get; } = new NumericUpDown();
 	
-	private Label PatriarchyLabel { get; } = new Label();
-	private NumericUpDown PatriarchyInput { get; } = new NumericUpDown();
+	private Label PatriarchyLevelLabel { get; } = new Label();
+	private NumericUpDown PatriarchyLevelInput { get; } = new NumericUpDown();
 	
 	private Label PopulationSizeLabel { get; } = new Label();
 	private NumericUpDown PopulationSizeInput { get; } = new NumericUpDown();
@@ -83,15 +83,17 @@ public partial class ApproximatorForm
 		this.ConfigureLabel(this.FileOutput, new Point(10, 50), "FILE NOT LOADED");
 		this.FileOutput.BackColor = Color.LightCoral;
 		this.ConfigureButton(this.FileButton, new Point(220, 10), "LOAD FILE");
+		this.FileButton.Click += this.FileButtonClick;
 		
 		this.ConfigureLabel(this.MutationProbabilityLabel, new Point(10, 90), "MUTATION PROBABILITY");
 		this.ConfigureInput(this.MutationProbabilityInput, new Point(220, 90), 0, 1000, 300, 20);
 		
-		this.ConfigureLabel(this.PatriarchyLabel, new Point(10, 130), "PATRIARCHY LEVEL");
-		this.ConfigureInput(this.PatriarchyInput, new Point(220, 130), 0, 1000, 600, 20);
+		this.ConfigureLabel(this.PatriarchyLevelLabel, new Point(10, 130), "PATRIARCHY LEVEL");
+		this.ConfigureInput(this.PatriarchyLevelInput, new Point(220, 130), 0, 1000, 600, 20);
 		
 		this.ConfigureLabel(this.PopulationSizeLabel, new Point(10, 170), "POPULATION SIZE");
 		this.ConfigureInput(this.PopulationSizeInput, new Point(220, 170), 0, 1000, 400, 50);
+		this.PopulationSizeInput.ValueChanged += this.PopulationSizeInputValueChanged;
 		
 		this.ConfigureLabel(this.ThreadCountLabel, new Point(10, 210), "THREAD COUNT");
 		this.ConfigureInput(this.ThreadCountInput, new Point(220, 210), 1, Environment.ProcessorCount, 1, 1);
@@ -124,9 +126,13 @@ public partial class ApproximatorForm
 		this.Controls.Add(this.EngineStatusLabel);
 		
 		this.ConfigureButton(this.StartEngineButton, new Point(440, 210), "START");
+		this.StartEngineButton.Click += this.StartEngineButtonClick;
 		this.ConfigureButton(this.StopEngineButton, new Point(650, 210), "STOP");
+		this.StopEngineButton.Click += this.StopEngineButtonClick;
 		this.ConfigureButton(this.PauseEngineButton, new Point(440, 290), "PAUSE");
+		this.PauseEngineButton.Click += this.PauseEngineButtonClick;
 		this.ConfigureButton(this.ResumeEngineButton, new Point(650, 290), "RESUME");
+		this.ResumeEngineButton.Click += this.ResumeEngineButtonClick;
 		
 		// DECORATIONS
 		this.Divider.BackColor = Color.LightGray;
@@ -152,7 +158,7 @@ public partial class ApproximatorForm
 		label.Text = text;
 		label.TextAlign = ContentAlignment.MiddleCenter;
 		this.Controls.Add(label);
-		ApproximatorForm.ResizeFontToFit(label);
+		this.ResizeFontToFit(label);
 	}
 
 	private void ConfigureInput(NumericUpDown input, Point location, int min, int max, int def, int inc)
@@ -171,10 +177,10 @@ public partial class ApproximatorForm
 	
 	
 
-	private static void ResizeFontToFit(Label label)
+	private void ResizeFontToFit(Label label)
 	{
 		if (string.IsNullOrEmpty(label.Text)) return;
-		var font = label.Font;
+		var font = this.BaseFont;
 		var fontSize = font.Size;
 
 		var textSize = TextRenderer.MeasureText(label.Text, font);
