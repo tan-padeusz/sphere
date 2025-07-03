@@ -13,6 +13,7 @@ public class Population
 
 	public Population(Approximator approximator)
 	{
+		Population.CreateIndividual = Population.CreateRandomIndividual;
 		this.Id = 0;
 		this.Individuals = Population.CreatePopulation(approximator, null);
 		this.BestIndividual = this.FindBestIndividual();
