@@ -89,7 +89,7 @@ public partial class GeneratorForm : Form
 
     private static double[] GeneratePoint(double[] sphere, double noiseFactor)
     {
-        var dimensions = sphere.Length;
+        var dimensions = sphere.Length - 1;
         var radius = sphere.Last();
         var random = Random.Shared;
         

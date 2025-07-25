@@ -38,7 +38,7 @@ public class Individual
 			error += Math.Abs(point.DistanceTo(center) - radius);
 		}
 
-		return (error, Math.Round(error / cloud.Size, 6));
+		return (error, Math.Round(error / cloud.Size, 5));
 	}
 
 	public bool IsBetterThan(Individual other)

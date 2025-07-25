@@ -43,6 +43,7 @@ public class Engine
 				
 				this.UpdateResult();
 			}
+			this.Stop();
 		}).Start();
 	}
 	

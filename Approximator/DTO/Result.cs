@@ -15,13 +15,15 @@ public class Result
 
 		private static string FormatTime(long milliseconds)
 		{
-			var seconds = (milliseconds / 1000) % 60;
-			var minutes = milliseconds / 60000;
-            
-			var minutesString = minutes < 10 ? $"0{minutes}" : minutes.ToString();
-			var secondsString = seconds < 10 ? $"0{seconds}" : seconds.ToString();
-
-			return $"{minutesString}:{secondsString}";
+			// var seconds = (milliseconds / 1000) % 60;
+			// var minutes = milliseconds / 60000;
+   //          
+			// var minutesString = minutes < 10 ? $"0{minutes}" : minutes.ToString();
+			// var secondsString = seconds < 10 ? $"0{seconds}" : seconds.ToString();
+			//
+			// return $"{minutesString}:{secondsString}";
+			var timespan = TimeSpan.FromMilliseconds(milliseconds);
+			return $"{(int) timespan.TotalSeconds}.{timespan.Milliseconds:D3}";
 		}
 		
 		public Builder SetElapsedTime(long milliseconds)
@@ -32,7 +34,7 @@ public class Result
 
 		public Builder SetError(double error)
 		{
-			this.Result.Error = error.ToString("F6");
+			this.Result.Error = error.ToString("F5");
 			return this;
 		}
 

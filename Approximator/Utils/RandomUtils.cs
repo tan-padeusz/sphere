@@ -12,12 +12,15 @@ public class RandomUtils
 	{
 		var randomValue = RandomUtils.Random.Next(1000);
 		if (randomValue >= mutation.Probability) return value;
-		var divider = Math.Pow(mutation.PopulationId, 0.25);
-		var maxThreshold = mutation.OrderOfMagnitude / divider;
-		var minThreshold = -6 + 6 / divider;
-		var delta = Math.Pow(10, RandomUtils.RandomDouble(minThreshold, maxThreshold));
+		// var divider = 1.0 / Math.Cos(0.25 * mutation.PopulationId);
+		var multiplier = Math.Cos(0.25 * mutation.PopulationId);
+		var maxThreshold = mutation.OrderOfMagnitude * multiplier;
+		var minThreshold = -6 + 6 * multiplier;
+		var delta = Math.Pow(10, RandomUtils.RandomInt(minThreshold, maxThreshold));
 		var sign = RandomUtils.RandomSign();
 		return value + delta * sign;
+		
+		// dynamiczne dostrajanie parametrów mutacji
 	}
 	
 	private static Individual PerformTournament(Individual[] group)
@@ -42,6 +45,11 @@ public class RandomUtils
 	{
 		if (min > max) (min, max) = (max, min);
 		return min + RandomUtils.Random.NextDouble() * (max - min + double.Epsilon);
+	}
+
+	private static int RandomInt(double min, double max)
+	{
+		return (int) Math.Round(RandomUtils.RandomDouble(min, max));
 	}
 	
 	private static T[] RandomElements<T>(T[] source, int count)

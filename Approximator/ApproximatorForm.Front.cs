@@ -92,7 +92,7 @@ public partial class ApproximatorForm
 		this.ConfigureInput(this.PatriarchyLevelInput, new Point(220, 130), 0, 1000, 600, 20);
 		
 		this.ConfigureLabel(this.PopulationSizeLabel, new Point(10, 170), "POPULATION SIZE");
-		this.ConfigureInput(this.PopulationSizeInput, new Point(220, 170), 0, 1000, 400, 50);
+		this.ConfigureInput(this.PopulationSizeInput, new Point(220, 170), 0, 1000, 100, 50);
 		this.PopulationSizeInput.ValueChanged += this.PopulationSizeInputValueChanged;
 		
 		this.ConfigureLabel(this.ThreadCountLabel, new Point(10, 210), "THREAD COUNT");

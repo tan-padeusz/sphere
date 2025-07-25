@@ -39,12 +39,12 @@ public class Population
 		var individuals = new Individual[approximator.PopulationSize];
 		var chunkSize = (int) Math.Ceiling(approximator.PopulationSize / (double) approximator.ThreadCount);
 		var threads = new Thread[approximator.ThreadCount];
-
+	
 		for (var threadIndex = 0; threadIndex < approximator.ThreadCount; threadIndex++)
 		{
 			var start = threadIndex * chunkSize;
 			var end = Math.Min(start + chunkSize, approximator.PopulationSize);
-
+	
 			threads[threadIndex] = new Thread(() =>
 			{
 				for (var individualIndex = start; individualIndex < end; individualIndex++)
